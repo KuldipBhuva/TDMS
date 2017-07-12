@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Vehicle Assignment to Trip";
+}
+
+@using EMSDomain.ViewModel.Vehicle
+@model TripModel
+
+@using (@Html.BeginForm("Index", "IO", FormMethod.Post, new { @id = "frmAddIO" }))
+{    
+    @Html.HiddenFor(m => m.Viewbagidformenu, new { @Value = @ViewBag.Menuid })
+    <section class="content-header">
+        <h1>Assign Vehicle
+           
+                    <small>for Trip</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="~/Dashboard/Index"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+
+    </section>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Vehicle Assignment            
+        </div>
+        <div class="panel-body">
+             <div class="col-sm-12" style="height: 5px;"></div>
+                    @Html.Label("* Departure Date", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.DDtTime, new { @class = "form-control datepicker", @id = "ddlDdt" })
+                        @Html.ValidationMessageFor(m => m.DDtTime)
+                    </div>
+            </div>
+        </div> 
+    <div id="dvTrip" class="col-sm-12">
+
+    </div>                            
+    
+}
+
+
+<script lang="javascript" type="text/javascript">
+    $(document).ready(function () {
+
+        //$("#btnSave").click(function () {
+        $('#ddlDdt').on('change', function (e) {
+            $("#divLoading").show();
+            debugger;
+            var ddt = $('#ddlDdt').val();
+            $.ajax(
+            {
+                url: '@Url.Action("getTripByDate", "IO")',
+                type: "GET",
+                datatype: "JSON",
+                data: { date: ddt },
+
+                success: function (gr) {
+                    debugger;
+                    $("#dvTrip").html("");  // clear before appending new list 
+                    $("#dvTrip").append(gr);
+                    $("#divLoading").hide();
+
+                }
+            });
+
+        });
+    });
+</script>

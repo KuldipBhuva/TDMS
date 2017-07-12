@@ -1,0 +1,100 @@
+﻿@{
+    Layout = null;
+}
+@using EMSDomain.ViewModel.Vehicle
+@model TripModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Staff-@Model.OINo</title>
+    <!-- Bootstrap -->
+    <link href="/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/print.css" rel="stylesheet" media="print" />
+    <link href="/assets/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8" style="text-align: center;">
+        <div id="dvMain" class="col-sm-12" style="height: 80px; border: solid 1px;">
+            <table style="width:100%;">
+                <tr>
+                    <td>
+                        <img src="~/assets/img/logo.png" height="60px" width="60px" style="margin-top: 1px; float: left;" />
+                        <img src="~/assets/img/Black_Logo_Text.png" height="70px" width="160px" style="margin-top: -8px;margin-left:3px; float: left;"/>
+
+                    </td>
+                    <td style="text-align:right;">Keshod-(O)02871 235053<br />
+                        Mo.:9426925330<br />
+                        Mo.:9408211238<br />
+                        Junagadh-(O)0285 2655521                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="col-sm-12" style="height: 150px; border: solid 1px; margin-top: 3px;">
+
+            <span style="float: left;">Order No.:-@Model.OINo</span><label><u>ગાડી-@Model.TotalVehicle</u></label><span style="float: right;">Date:-<b>@Model.DDtTime.Value.ToString("dd/MM/yyyy")</b></span><br />
+
+            @* <span style="float: left;">સવારે/બપોરે/સાંજે/રાત્રે:-&nbsp;@Model.DDtTime.Value.ToString("dd/MM/yyyy")&nbsp;<b>@Model.DDtTime.Value.ToString("hh:mm tt")</b></span><br />
+                <span style="float: left;">રીટર્ન:-&nbsp;@Model.RDtTime.Value.ToString("dd/MM/yyyy")&nbsp;<b>@Model.RDtTime.Value.ToString("hh:mm tt")</b></span><br />
+                <span style="float: left;">ટોટલ દિવસ:-&nbsp;<b>@Model.TotalDays દિવસ</b></span>*@
+
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+                        <span style="float: left;"><u><b>@Model.FCity</b>&nbsp;થી&nbsp;<b>@Model.TCity</b></u></span><br />
+                        <span style="float: left;">સવારે/બપોરે/સાંજે/રાત્રે:-&nbsp;@Model.DDtTime.Value.ToString("dd/MM/yyyy")&nbsp;<b>@Model.DDtTime.Value.ToString("hh:mm tt")</b></span><br />
+                        <span style="float: left;">રીટર્ન:-&nbsp;@Model.RDtTime.Value.ToString("dd/MM/yyyy")&nbsp;<b>@Model.RDtTime.Value.ToString("hh:mm tt")</b></span><br />
+                        <span style="float: left;">ટોટલ દિવસ:-&nbsp;<b>@Model.TotalDays દિવસ</b></span>
+                    </td>
+
+                    <td rowspan="1">
+                        <table style="text-align: left;">
+                            <tr>
+                                <td>_____________&nbsp;</td>
+                                <td>ભાડું</td>
+                            </tr>
+                            <tr style="height: 35px;">
+                                <td>_____________&nbsp;
+                                </td>
+                                <td>ડીપોઝીટ</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>લેવાના બાકી</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="font-weight:bold;">
+                    <td>@if (Model.PName1 != null)
+                        {
+                        <span style="float: left;">@Model.PName1&nbsp;-&nbsp;@Model.PMobile1</span>
+                            if (@Model.PName2 != null)
+                            {
+                        <br />
+                        <span style="float: left;">@Model.PName2&nbsp;-&nbsp;@Model.PMobile2</span>
+                            }
+                        }
+                        else if (Model.AName != null)
+                        {
+                        <span style="float: left;">@Model.AName&nbsp;-&nbsp;@Model.AMobile</span>
+                        }
+                        else
+                        {
+                        <span style="float: left;">@Model.BName&nbsp;-&nbsp;@Model.BMobile</span>   
+                        }</td>
+                    <td></td>
+                </tr>
+            </table>
+
+        </div>        
+    </div>
+
+    <div class="col-sm-2"></div>
+    
+</body>
+</html>

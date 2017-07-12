@@ -1,0 +1,377 @@
+﻿@{ 
+    ViewBag.Title = "Order/Inquiry";
+}
+
+@using EMSDomain.ViewModel.Vehicle
+@model TripModel
+
+@using (@Html.BeginForm("Edit", "IO", FormMethod.Post, new { @id = "frmAddIO" }))
+{
+    @Html.HiddenFor(m => m.Viewbagidformenu, new { @Value = @ViewBag.Menuid })
+    @Html.HiddenFor(m => m.CreatedBy)
+    @Html.HiddenFor(m => m.CreatedDate)
+    @Html.HiddenFor(m => m.TID)
+   @Html.HiddenFor(m=>m.OINo)
+    
+    
+    <section class="content-header">
+        <h1>Inquiry/Order
+           
+                    <small>Master</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="~/Dashboard/Index"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+
+    </section>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            @*Inquiry/Order Master*@
+            .
+            @*@Html.Label("Order/Inquiry", new { @class = "col-sm-2 conrol-label" })*@
+            <div class="col-sm-4">
+                @Html.RadioButtonFor(m => m.OIType, "I", new { @class = "flat-red" })Inquiry
+                                        @Html.RadioButtonFor(m => m.OIType, "O", new { @class = "flat-red" })Order
+                    @Html.ValidationMessageFor(m => m.OIType)
+            </div>
+            @*<input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />*@
+        </div>
+        <div class="panel-body" >
+            <div class="form-group" id="dvView">
+
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Trip Detail</legend>
+                    @Html.Label("* From", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.FCity, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.FCity)
+                    </div>
+                    @Html.Label("* To", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.TCity, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.TCity)
+                    </div>
+                    <div class="col-sm-12" style="height: 5px;"></div>
+                    @Html.Label("* Departure Date", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.DDtTime, new { @class = "form-control datetimepicker", @id = "ddlDdt" })
+                        @Html.ValidationMessageFor(m => m.DDtTime)
+                    </div>
+                    @Html.Label("* Return Date", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.RDtTime, new { @class = "form-control datetimepicker" })
+                        @Html.ValidationMessageFor(m => m.RDtTime)
+                    </div>
+                    <div class="col-sm-12" style="height: 5px;"></div>
+                    @Html.Label("* Total Days", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.TotalDays, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.TotalDays)
+                    </div>
+                    @Html.Label("* Total Vehicle", new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.TotalVehicle, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.TotalVehicle)
+                    </div>
+                    <div class="col-sm-12" style="height: 5px;"></div>
+                    <div id="dvTrip">
+                    </div>
+                    <div class="col-sm-12" style="height: 5px;"></div>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#menu-1">Vehicle-1</a></li>
+                        <li><a data-toggle="tab" href="#menu-2">Vehicle-2</a></li>
+                        <li><a data-toggle="tab" href="#menu-3">Vehicle-3</a></li>
+                        <li><a data-toggle="tab" href="#menu-4">Vehicle-4</a></li>
+                    </ul>
+                    <div class="tab-content">
+                       
+                            @{int k = 0;
+                              for (var i = 0; i < Model.lstTVehicle.Count(); i++)
+                              {
+                                  var vhcl = Model.lstTVehicle[i];
+
+                                  k++;
+                                  if (k == 1)
+                                  {
+                                      @Html.HiddenFor(m=>m.lstTVehicle[i].TVID)
+                                <div id="menu-@k" class="tab-pane fade in active">
+                                    <h3>Vehicle-@k</h3>
+                                    @Html.Label("Vehicle Type", new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-4">
+                                        @Html.DropDownListFor(m => m.lstTVehicle[i].VTID, new SelectList(Model.ListVType, "VTID", "VehicleType", vhcl.VTID), "--Select Vehicle Type--", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.VTypeModel.VTID)
+                                    </div>
+                                    @Html.Label("* Vehicle#", new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(m => m.lstTVehicle[i].TotalVehicle, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.VTypeModel.TotalVehicle)
+                                    </div>
+                                </div>
+                                  }
+                                  else if (k == 2)
+                                  {
+                                      @Html.HiddenFor(m=>m.lstTVehicle[i].TVID)
+                                     <div id="menu-@k" class="tab-pane fade">
+                                    <h3>Vehicle-@k</h3>
+                                    @Html.Label("Vehicle Type", new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-4">
+                                        @Html.DropDownListFor(m => m.lstTVehicle[i].VTID, new SelectList(Model.ListVType, "VTID", "VehicleType", vhcl.VTID), "--Select Vehicle Type--", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.VTypeModel.VTID)
+                                    </div>
+                                    @Html.Label("* Vehicle#", new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(m => m.lstTVehicle[i].TotalVehicle, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.VTypeModel.TotalVehicle)
+                                    </div>
+                                </div>   
+                                  }
+                                  else if (k == 3)
+                                  {
+                                      @Html.HiddenFor(m=>m.lstTVehicle[i].TVID)
+                                      <div id="menu-@k" class="tab-pane fade">
+                                    <h3>Vehicle-@k</h3>
+                                    @Html.Label("Vehicle Type", new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-4">
+                                        @Html.DropDownListFor(m => m.lstTVehicle[i].VTID, new SelectList(Model.ListVType, "VTID", "VehicleType", vhcl.VTID), "--Select Vehicle Type--", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.VTypeModel.VTID)
+                                    </div>
+                                    @Html.Label("* Vehicle#", new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(m => m.lstTVehicle[i].TotalVehicle, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.VTypeModel.TotalVehicle2)
+                                    </div>
+                                </div>
+                                  }
+                                  else
+                                  {
+                                      @Html.HiddenFor(m=>m.lstTVehicle[i].TVID)
+                                      <div id="menu-@k" class="tab-pane fade">
+                                    <h3>Vehicle-@k</h3>
+                                    @Html.Label("Vehicle Type", new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-4">
+                                        @Html.DropDownListFor(m => m.lstTVehicle[i].VTID, new SelectList(Model.ListVType, "VTID", "VehicleType", vhcl.VTID), "--Select Vehicle Type--", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.VTypeModel.VTID)
+                                    </div>
+                                    @Html.Label("* Vehicle#", new { @class = "col-sm-2 control-label" })
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(m => m.lstTVehicle[i].TotalVehicle, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.VTypeModel.TotalVehicle3)
+                                    </div>
+                                </div>
+                                  }
+                              }
+                            }
+                            @*   <h3>Vehicle-1</h3>
+                            @Html.Label("Vehicle Type", new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(m => m.VTypeModel.VTID, new SelectList(Model.ListVType, "VTID", "VehicleType"), "--Select Vehicle Type--", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.VTypeModel.VTID)
+                            </div>
+                            @Html.Label("* Vehicle#", new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(m => m.VTypeModel.TotalVehicle, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.VTypeModel.TotalVehicle)
+                            </div>*@
+                       
+                        @*<div id="menu2" class="tab-pane fade">
+                            <h3>Vehicle-2</h3>
+                            @Html.Label("Vehicle Type", new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(m => m.VTypeModel.VTID1, new SelectList(Model.ListVType, "VTID", "VehicleType"), "--Select Vehicle Type--", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.VTypeModel.VTID1)
+                            </div>
+                            @Html.Label("* Vehicle#", new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(m => m.VTypeModel.TotalVehicle1, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.VTypeModel.TotalVehicle1)
+                            </div>
+                        </div>
+                        <div id="menu3" class="tab-pane fade">
+                            <h3>Vehicle-3</h3>
+                            @Html.Label("Vehicle Type", new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(m => m.VTypeModel.VTID2, new SelectList(Model.ListVType, "VTID", "VehicleType"), "--Select Vehicle Type--", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.VTypeModel.VTID2)
+                            </div>
+                            @Html.Label("* Vehicle#", new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(m => m.VTypeModel.TotalVehicle2, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.VTypeModel.TotalVehicle2)
+                            </div>
+                        </div>
+                        <div id="menu4" class="tab-pane fade">
+                            <h3>Vehicle-4</h3>
+                            @Html.Label("Vehicle Type", new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(m => m.VTypeModel.VTID3, new SelectList(Model.ListVType, "VTID", "VehicleType"), "--Select Vehicle Type--", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.VTypeModel.VTID3)
+                            </div>
+                            @Html.Label("* Vehicle#", new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(m => m.VTypeModel.TotalVehicle3, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.VTypeModel.TotalVehicle3)
+                            </div>
+                        </div>*@
+                    </div>
+                </fieldset>
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Person Detail</legend>
+                    @Html.Label("* Booking By", new { @class = "col-sm-2 conrol-label" })
+                    <div class="col-sm-10">
+                        @Html.RadioButtonFor(m => m.Type, "P", new { @class = "flat-red" })Party
+                                        @Html.RadioButtonFor(m => m.Type, "A", new { @class = "flat-red" })Agent
+                    @Html.RadioButtonFor(m => m.Type, "R", new { @class = "flat-red" })Reference
+                    @Html.ValidationMessageFor(m => m.Type)
+                    </div>
+                    <div class="col-sm-12" style="height: 5px;"></div>
+                    <div id="dvP">
+                        @Html.Label("* Party-1", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(m => m.PName1, new { @class = "form-control", @placeholder = "Name" })
+                            @Html.ValidationMessageFor(m => m.PName1)
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.PMobile1, new { @class = "form-control", @placeholder = "Mobile" })
+                            @Html.ValidationMessageFor(m => m.PMobile1)
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.PEmail1, new { @class = "form-control", @placeholder = "Email" })
+                            @Html.ValidationMessageFor(m => m.PEmail1)
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.PCity1, new { @class = "form-control", @placeholder = "City" })
+                            @Html.ValidationMessageFor(m => m.PCity1)
+                        </div>
+                        <div class="col-sm-12" style="height: 5px;"></div>
+                        @Html.Label("* Party-2", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(m => m.PName2, new { @class = "form-control", @placeholder = "Name" })
+                            @Html.ValidationMessageFor(m => m.PName2)
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.PMobile2, new { @class = "form-control", @placeholder = "Mobile" })
+                            @Html.ValidationMessageFor(m => m.PMobile2)
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.PEmail2, new { @class = "form-control", @placeholder = "Email" })
+                            @Html.ValidationMessageFor(m => m.PEmail2)
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.PCity2, new { @class = "form-control", @placeholder = "City" })
+                            @Html.ValidationMessageFor(m => m.PCity2)
+                        </div>
+                    </div>
+
+                    <div id="dvA">
+                        @Html.Label("* Agent", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(m => m.AName, new { @class = "form-control", @placeholder = "Name" })
+                            @Html.ValidationMessageFor(m => m.AName)
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.AMobile, new { @class = "form-control", @placeholder = "Mobile" })
+                            @Html.ValidationMessageFor(m => m.AMobile)
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.ACommission, new { @class = "form-control", @placeholder = "Commision" })
+                            @Html.ValidationMessageFor(m => m.ACommission)
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.ACity, new { @class = "form-control", @placeholder = "City" })
+                            @Html.ValidationMessageFor(m => m.ACity)
+                        </div>
+                    </div>
+                    <div class="col-sm-12" style="height: 5px;"></div>
+                    <div id="dvR">
+                        @Html.Label("* Reference", new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(m => m.BName, new { @class = "form-control", @placeholder = "Name" })
+                            @Html.ValidationMessageFor(m => m.BName)
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.BMobile, new { @class = "form-control", @placeholder = "Mobile" })
+                            @Html.ValidationMessageFor(m => m.BMobile)
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.BEmail, new { @class = "form-control", @placeholder = "Email" })
+                            @Html.ValidationMessageFor(m => m.BEmail)
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.BCity, new { @class = "form-control", @placeholder = "City" })
+                            @Html.ValidationMessageFor(m => m.BCity)
+                        </div>
+                    </div>
+                </fieldset>
+
+
+
+                @Html.LabelFor(m => m.Remarks, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.TextAreaFor(m => m.Remarks, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Remarks)
+                </div>
+                @Html.LabelFor(m => m.Status, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+                    @Html.RadioButtonFor(m => m.Status, true)Active
+                        @Html.RadioButtonFor(m => m.Status, false)Transfered
+                    @Html.RadioButtonFor(m => m.Status, 3)Canceled                   
+                    @Html.RadioButtonFor(m => m.Status, 4)OnHold
+                </div>
+                <div class="col-sm-12" style="height: 5px;">
+                </div>
+               @* <div class="col-xs-10">
+                    <div class="col-sm-3" style="width: 179px;"></div>
+                    <input type="submit" value="Update" class="btn btn-primary" />
+                </div>*@
+            </div>
+            <div class="col-xs-10">
+                <div class="col-sm-3" style="width: 179px;"></div>
+                @Html.ActionLink("Back", "Index", new {@menuId = Convert.ToInt32(Request.QueryString["menuid"]) }, new { @class = "fa fa-chevron-circle-left btn btn-info" })
+            </div>
+        </div>
+    </div>
+    
+}
+
+<script lang="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $("#divLoading").show();
+        debugger;
+        $("#dvP").hide();
+        $("#dvA").hide();
+        $("#dvR").hide();
+        var val = "";
+        var selected = $("input[type='radio'][name='Type']:checked");
+        if (selected.length > 0) {
+            val = selected.val();
+        }
+        if (val == "P") {
+            $("#dvP").show();
+            $("#dvA").hide();
+            $("#dvR").hide();
+            $("#divLoading").hide();
+        }
+        else if (val == "A") {
+            $("#dvA").show();
+            $("#dvP").hide();
+            $("#dvR").hide();
+            $("#divLoading").hide();
+        }
+        else if (val == "R") {
+            $("#dvR").show();
+            $("#dvA").hide();
+            $("#dvP").hide();
+            $("#divLoading").hide();
+        }
+        else {
+            $("#dvP").hide();
+            $("#dvA").hide();
+            $("#dvR").hide();
+            $("#divLoading").hide();
+        }
+
+    });
+
+        </script>
+

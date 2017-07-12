@@ -1,0 +1,29 @@
+﻿@using EMSDomain.ViewModel.Vehicle
+@model List<TripModel>
+
+@foreach (var i in Model)
+{
+    <div class="col-sm-6">
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border"><span class="label label-primary">@i.OINo</span><span class="label label-danger">@i.TotalVehicle</span></legend>
+
+            <div class="col-sm-12"><label><i class="fa fa-bus" aria-hidden="true"></i>&nbsp;@i.FCity&nbsp;<i class="fa fa-long-arrow-right" aria-hidden="true"></i>&nbsp;@i.TCity</label></div>
+            <div class="col-sm-12"><label><i class="fa fa-calendar-times-o" aria-hidden="true"></i>&nbsp;@i.DDtTime&nbsp;<i class="fa fa-long-arrow-right" aria-hidden="true"></i>&nbsp;@i.RDtTime&nbsp;<span class="label label-success">@i.TotalDays Day</span></label></div>
+            <div class="col-sm-12">
+                @if (@i.PName1 != null)
+                {
+                    <span>@i.PName1 - @i.PMobile1</span><br />
+                    <span>@i.PName2 - @i.PMobile2</span>
+                }
+                else if (@i.AName != null)
+                {
+                    <span>@i.AName - @i.AMobile</span>                    
+                }
+                else
+                {
+                    <span>@i.BName - @i.BMobile</span>
+                }
+            </div>
+        </fieldset>
+    </div>
+}
